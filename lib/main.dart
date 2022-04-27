@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/Providers/admin_data.dart';
+import 'package:medicine_reminder/Screens/Admin/admin_home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/addNewMedicineProvider.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ModalHud>(create: (context) => ModalHud(),),
         ChangeNotifierProvider<UserData>(create: (context) => UserData(),),
+        ChangeNotifierProvider<AdminData>(create: (context) => AdminData(),),
         ChangeNotifierProvider<AddNewMedicineProvider>(create: (context) => AddNewMedicineProvider(),)
       ],
       child: MaterialApp(
@@ -35,6 +38,9 @@ class MyApp extends StatelessWidget {
           RegistrationScreen.id : (context)=> RegistrationScreen(),
 
           HomeScreen.id : (context)=> HomeScreen(),
+
+          /// Admin
+          AdminHomeScreen.id:(context)=>AdminHomeScreen(),
         },
       ),
     );

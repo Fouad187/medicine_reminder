@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../Services/auth_services.dart';
 import '../../Util/constant.dart';
+import '../Auth/login_screen.dart';
 import 'Taps/addMedicineTap.dart';
 import 'Taps/homeTap.dart';
 
@@ -23,6 +25,22 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Medicine Reminder' , style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         backgroundColor: fColor,
+        actions: [
+          InkWell(
+            onTap: (){
+              Auth auth=Auth();
+              auth.signOut();
+              Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
+            },
+            child: const Padding(
+              padding:  EdgeInsets.all(10),
+              child: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

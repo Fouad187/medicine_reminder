@@ -52,32 +52,32 @@ class RegistrationScreen extends StatelessWidget {
                   const Text('Sign up to start your trip and get full access' , style: TextStyle(color: Colors.grey , fontSize: 18),),
                   const SizedBox(height: 50,),
                   MyTextField(label: 'Name', picon: const Icon(Icons.person , color: fColor,), controller: nameController ,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your name';
                       }
                     },),
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Email', picon: const Icon(Icons.email, color: fColor), controller: emailController,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your email';
                       }
                     },),
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Password', picon: const Icon(Icons.lock, color: fColor), security: true ,controller: passwordController ,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your password';
                       }
                     },),
                   const SizedBox(height: 20,),
                   MyTextField(label: 'Confirm Password', picon: const Icon(Icons.lock, color: fColor),security: true, controller: confirmController,
-                    validate: (String value){
-                      if(value.isEmpty)
+                    validate: (value){
+                      if(value!.isEmpty)
                       {
                         return 'Please enter your confirm password';
                       }
@@ -89,24 +89,33 @@ class RegistrationScreen extends StatelessWidget {
                         instance.changeIsLoading(true);
                         if (_globalKey.currentState!.validate())
                         {
-                          try {
-                            await auth.createAccount(
-                              name: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              context: context,
-                            ).then((value) {
+                          if(passwordController.text==confirmController.text)
+                            {
+                              try {
+                                await auth.createAccount(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  context: context,
+                                ).then((value) {
+                                  instance.changeIsLoading(false);
+                                  Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id , (route)=> false);
+                                });
+
+
+                              }
+                              catch (e) {
+                                print(e.toString());
+                                instance.changeIsLoading(false);
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Must be Unique'),));
+                              }
+                            }
+                          else
+                            {
                               instance.changeIsLoading(false);
-                              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id , (route)=> false);
-                            });
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password Should be Match'),));
 
-
-                          }
-                          catch (e) {
-                            print(e.toString());
-                            instance.changeIsLoading(false);
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Must be Unique'),));
-                          }
+                            }
                         }
                       },
                       text: 'Create')),
