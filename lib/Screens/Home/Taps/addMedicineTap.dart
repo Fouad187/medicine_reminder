@@ -23,6 +23,7 @@ class _AddMedicineTapState extends State<AddMedicineTap> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController=TextEditingController();
+
   int _selectedIndex = 0;
 
   final List<String> _icons = [
@@ -41,7 +42,9 @@ class _AddMedicineTapState extends State<AddMedicineTap> {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final android = AndroidInitializationSettings("@mipmap/ic_launcher");
     final ios = IOSInitializationSettings();
+
     final settings = InitializationSettings(android: android, iOS: ios);
+
     flutterLocalNotificationsPlugin!.initialize(
         settings,
         onSelectNotification: (payload) async {});
@@ -136,7 +139,7 @@ class _AddMedicineTapState extends State<AddMedicineTap> {
                             catch (e) {
                               instance.changeIsLoading(false);
                               print('error :${e.toString()}');
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Wrong Email or Password')));
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Something went wrong')));
                             }
                           }
                         else
@@ -180,7 +183,7 @@ class _AddMedicineTapState extends State<AddMedicineTap> {
       'repeatDailyAtTime channel name',
       channelDescription: 'repeatDailyAtTime description',
       importance: Importance.max,
-      priority: Priority.high,
+      priority: Priority.max,
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(

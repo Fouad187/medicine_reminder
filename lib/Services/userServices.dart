@@ -10,6 +10,7 @@ class UserServices
   static Future<List<Medicine>> getMyMedicine({required String userId}) async
   {
     List<Medicine> medicines=[];
+
     await FirebaseFirestore.instance.collection('Medicine').where('userId' , isEqualTo: userId).get().then((value){
       for(int i=0 ; i<value.docs.length ; i++)
       {
